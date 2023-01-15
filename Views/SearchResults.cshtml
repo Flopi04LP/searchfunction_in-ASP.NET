@@ -1,0 +1,101 @@
+﻿@using System.Web
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<_2022_87_Alpha_Golftours.Models.SearchViewModel>
+
+@{
+    Layout = "Master.cshtml";
+}
+
+    <div class="module-container" style="margin-top:182px;">
+        <div class="container">
+            <div class="row justify-content-center module-header">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <h1 class="title">Suchresultate</h1>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <hr class="solid">
+                </div>
+                <div class="w-100"></div>
+            </div>
+            <div class="row justify-content-center module-text">
+                <div class="col-md-10">
+                    <div class="d-flex justify-content-center">
+                        <p id="countText">Ihre suche hat Resultate ergeben.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row justify-content-center searchField">
+                <div class="d-flex justify-content-center">
+                    <form action="@Model.Url()" method="get">
+                        <input type="text" id="searchText" name="searchText">
+                        <input type="submit" value="Suche">
+                    </form>
+                </div>
+                <div class="d-flex justify-content-center">
+                    @if (Model.SearchResults.Any())
+                    {
+                        <ul id="ul_o">
+
+                            @foreach (var content in Model.SearchResults)
+                            {
+                                if (content.Url().Contains("golfhotels") || content.Url().Contains("golfplaces"))
+                                {
+                                    if (content.Url().Split("/").Length >= 7)
+                                    {
+                                        <br>
+                                        <li>
+                                            <h4><a href="@content.Url()">@content.Name</a></h4>
+                                            <a href="@content.Url()">von @content.Url()</a>
+                                        </li>
+                                    }
+                                }
+                                else
+                                {
+                                    <br>
+                                    <li>
+                                        <h4><a href="@content.Url()">@content.Name</a></h4>
+                                        <a href="@content.Url()">von @content.Url()</a>
+                                    </li>
+                                }
+                            }
+                        </ul>
+                    }
+                    else if (Model.HasSearched)
+                    {
+                        <p>Keine Ergebnisse</p>
+                    }
+                    else
+                    {
+                        <p>Es hat keine Suche stattgefunden!</p>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+<script>
+    var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        return false;
+    };
+    var lastSearch = getUrlParameter("searchText");
+    try{
+        var count = document.getElementById("ul_o").getElementsByTagName("li").length;
+    } catch{
+        var count = "keine";
+    }
+    var countText = "Ihre Suche nach " + lastSearch + " hat " + count + " Resultate ergeben.";
+    document.getElementById("countText").innerText = countText;
+</script>

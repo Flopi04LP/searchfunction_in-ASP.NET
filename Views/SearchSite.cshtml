@@ -1,0 +1,31 @@
+﻿@using System.Web
+
+@{
+    Layout = "Master.cshtml";
+}
+<div class="module-container">
+    <div class="module-container">
+        <div class="container">
+            <div class="row justify-content-center module-header">
+                <div class="col-12">
+                    <div class="d-flex justify-content-center">
+                        <h1 class="title">Suche</h1>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <hr class="solid">
+                </div>
+                <div class="w-100"></div>
+            </div>
+
+            <div class="row justify-content-center searchField">
+                <div class="d-flex justify-content-center">
+                     <form action="/searchresults/" method="get">
+                        <input type="text" id="searchText" name="searchText">
+                        <input type="submit" value="Suche">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
